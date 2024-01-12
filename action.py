@@ -1,7 +1,7 @@
 import re
 import numpy as np
 
-def take_action(action, current_state, energy_budget, max_energy):
+def take_action(action, current_state, energy_budget, max_energy, violation):
     # Get the current location of the robot
     current_location = tuple(np.argwhere(current_state[2] == 1)[0])
     #print(i," current: ",current_location)
@@ -49,6 +49,7 @@ def take_action(action, current_state, energy_budget, max_energy):
     if updated_energy_budget <= 0:
         # If the energy is depleted, set a negative reward
         reward = -3.0
+        violation = 1
     else:
         reward = 0.1  # No reward for other movements
         
@@ -58,4 +59,4 @@ def take_action(action, current_state, energy_budget, max_energy):
         reward +=2
         
     reward /= 2
-    return next_state, reward, updated_energy_budget
+    return next_state, reward, updated_energy_budget, violation
